@@ -1,3 +1,5 @@
+// when compiling add -lm to include math library
+
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
