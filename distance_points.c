@@ -9,4 +9,6 @@ float distance_points(int x1, int y1, int x2, int y2)
 int main()
 {
 	printf("Distance: %f\n", distance_points(3, 4, 4, 3) * 1.0);
+	
+	return 0;
 }
