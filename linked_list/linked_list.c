@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct node {
 	int value;
@@ -20,15 +21,23 @@ void print_list(Node *head)
 	}
 }
 
+Node *insert_at_head(Node *head, int new_value)
+{
+	Node *new_node = calloc(1, sizeof(Node));
+	new_node->value = new_value;
+	
+	if(head !=NULL)
+		new_node->next = head;
+
+	return new_node;			
+}
+
 int main()
 {
-	Node a, b, c;
-	a.value = 5;
-	b.value = 6;
-	c.value = 7;
-	a.next = &b;
-	b.next = &c;
-	c.next = NULL;
+	Node *list1_head = NULL;
+	list1_head = insert_at_head(list1_head, 5);
+	list1_head = insert_at_head(list1_head, 6);
+	list1_head = insert_at_head(list1_head, 7);
 
-	print_list( &a );
+	print_list(list1_head);
 }
