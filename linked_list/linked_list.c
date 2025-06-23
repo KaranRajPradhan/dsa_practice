@@ -26,18 +26,41 @@ Node *insert_at_head(Node *head, int new_value)
 	Node *new_node = calloc(1, sizeof(Node));
 	new_node->value = new_value;
 	
-	if(head !=NULL)
+	if(head != NULL)
 		new_node->next = head;
 
 	return new_node;			
 }
 
+Node *insert_at_tail(Node *head, int new_value)
+{
+	Node *new_node = calloc(1, sizeof(Node));
+	new_node->value = new_value;
+	
+	// If first node, no need to find the tail node
+	if ( head == NULL)
+	       return new_node;
+	
+	// If not first node, traverse until tail node is found
+	// Tail node has (node->next == NULL)
+	Node *current = head;
+	while( current->next != NULL)	// current is now the tail node
+		current = current->next;
+	// new_node is not the tail node
+	current->next = new_node;
+	return head;	
+		
+}
+
 int main()
 {
 	Node *list1_head = NULL;
-	list1_head = insert_at_head(list1_head, 5);
-	list1_head = insert_at_head(list1_head, 6);
-	list1_head = insert_at_head(list1_head, 7);
+	list1_head = insert_at_head(list1_head, 1);
+	list1_head = insert_at_head(list1_head, 2);
+	list1_head = insert_at_head(list1_head, 3);
+	list1_head = insert_at_tail(list1_head, 4);
+	list1_head = insert_at_tail(list1_head, 8);
+	list1_head = insert_at_tail(list1_head, 12);
 
 	print_list(list1_head);
 }
