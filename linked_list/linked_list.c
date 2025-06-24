@@ -52,6 +52,50 @@ Node *insert_at_tail(Node *head, int new_value)
 		
 }
 
+Node *delete_at_head(Node *head)
+{
+	if ( head == NULL )
+		return NULL;
+	else if ( head->next == NULL)
+	{
+		free(head);
+		return NULL;	
+	}
+	else
+	{
+		Node *to_return = head->next;
+		free(head);
+		return to_return;
+	}
+}
+
+Node *delete_at_tail(Node *head)
+{
+	if ( head == NULL )
+		return NULL;
+	else if ( head->next == NULL )
+	{
+		free(head);
+		return NULL;
+	}
+	else
+	{
+		Node *current = head;
+		Node *prev = NULL;
+	
+		while( current->next != NULL )
+		{
+			prev = current;
+			current = current->next;
+		}
+
+		prev->next = NULL;
+		free(current);
+
+		return head;
+	}
+}
+
 int main()
 {
 	Node *list1_head = NULL;
@@ -61,6 +105,14 @@ int main()
 	list1_head = insert_at_tail(list1_head, 4);
 	list1_head = insert_at_tail(list1_head, 8);
 	list1_head = insert_at_tail(list1_head, 12);
+
+	print_list(list1_head);
+
+	list1_head = delete_at_head(list1_head);
+	list1_head = delete_at_head(list1_head);
+	list1_head = delete_at_tail(list1_head);
+	list1_head = delete_at_tail(list1_head);
+	
 
 	print_list(list1_head);
 }
