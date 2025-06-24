@@ -97,6 +97,61 @@ Node *delete_at_tail(Node *head)
 	}
 }
 
+Node *delete_first_match(Node *head, int delete_value, bool *was_deleted)
+{
+	if (head == NULL)
+	{
+		*was_deleted = false;
+		return NULL;
+	}
+	// If head node is a match, then just start head from the next node
+	else if (head->value == delete_value)
+	{
+		Node *temp = head->next;
+		free(head);
+		*was_deleted = true;
+		return temp;
+	}
+	else
+	{
+		Node *current = head;
+		Node *prev = NULL;
+		while (current != NULL)
+		{
+			if (current->value == delete_value)
+			{
+				// Found delete_value, point previous->next to skip current node
+				prev->next = current->next;
+				free(current);
+				*was_deleted = true;
+				return head;
+			}
+			prev = current;
+			current = current->next;
+		}
+		// End of list, could not find delete_value
+		*was_deleted = false;
+		return head;
+	}
+}
+
+// Inefficient method as it traverses through the list multiple times
+Node *delete_all_matches(Node *head, int delete_value, int *num_deleted)
+{
+	Node *current = head;
+	*num_deleted = 0;
+	bool deleted = false;
+	
+	do
+	{
+		current = delete_first_match(current, delete_value, &deleted);
+		if (deleted)
+			*num_deleted += 1;
+	} while(deleted);
+	
+	return current;
+}
+
 int length(Node *node)
 {
 	Node *current = node;
@@ -161,26 +216,24 @@ int main()
 	list1_head = insert_at_tail(list1_head, 12);
 	list1_head = insert_at_tail(list1_head, 12);
 
-
-	printf("Is 1 in the list: %s\n", is_member(list1_head, 1) ? "Yes" : "No");
-	printf("Is 99 in the list: %s\n", is_member(list1_head, 99) ? "Yes" : "No");
-	printf("Count of 2 in the list: %d\n", count_matches(list1_head, 2));
-	printf("Count of 12 in the list: %d\n", count_matches(list1_head, 12));
-
-	printf("Length of list: %d\n", length(list1_head));
-	printf("Recursive Length of list: %d\n", recursive_length(list1_head));
 	print_list(list1_head);
+	bool deleted;
+	list1_head = delete_first_match(list1_head, 9, &deleted);
 
-	replace_matches(list1_head, 19, 21);
-	replace_matches(list1_head, 12, 24);
-	replace_matches(list1_head, 24, 36);
+	if (deleted)
+	{
+		printf("List after deleting first item:\n");
+		print_list(list1_head);
+	}
+	else
+		printf("Item not found\n");
 
-	list1_head = delete_at_head(list1_head);
-	list1_head = delete_at_head(list1_head);
-	list1_head = delete_at_tail(list1_head);
-	list1_head = delete_at_tail(list1_head);
-	
-	printf("Length of list: %d\n", length(list1_head));
-	printf("Recursive Length of list: %d\n", recursive_length(list1_head));
+	int num_deleted;
+
+	list1_head = delete_all_matches(list1_head, 12, &num_deleted);
+	if (num_deleted)
+		printf("Deleted %d instances of 12. Updated list:\n", num_deleted);
+	else
+		printf("No instances of 12 found in list\n");
 	print_list(list1_head);
 }
