@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct node {
 	int value;
@@ -116,19 +117,63 @@ int recursive_length(Node * node)
 	return 1 + recursive_length(node->next);
 }
 
+bool is_member(Node *node, int find_value)
+{
+	if ( node == NULL )
+		return false;
+	else if ( node->value == find_value )
+		return true;
+	else
+		return is_member( node->next, find_value);
+}
+
+int count_matches(Node *node, int find_value)
+{
+	if (node == NULL)
+		return 0;
+	else if (node->value == find_value)
+		return 1 + count_matches(node->next, find_value);
+	else
+		return count_matches(node->next, find_value);
+}
+
+void replace_matches(Node *node, int find_value, int replace_value)
+{
+	if (node != NULL)
+	{
+		if (node->value == find_value)
+			node->value = replace_value;
+		replace_matches(node->next, find_value, replace_value);
+	}
+}
+
 int main()
 {
 	Node *list1_head = NULL;
 	list1_head = insert_at_head(list1_head, 1);
 	list1_head = insert_at_head(list1_head, 2);
-	//list1_head = insert_at_head(list1_head, 3);
-	list1_head = insert_at_tail(list1_head, 4);
+	list1_head = insert_at_head(list1_head, 2);
+	list1_head = insert_at_head(list1_head, 4);
 	list1_head = insert_at_tail(list1_head, 8);
-	//list1_head = insert_at_tail(list1_head, 12);
+	list1_head = insert_at_tail(list1_head, 12);
+	list1_head = insert_at_tail(list1_head, 12);
+	list1_head = insert_at_tail(list1_head, 12);
+	list1_head = insert_at_tail(list1_head, 12);
+	list1_head = insert_at_tail(list1_head, 12);
+
+
+	printf("Is 1 in the list: %s\n", is_member(list1_head, 1) ? "Yes" : "No");
+	printf("Is 99 in the list: %s\n", is_member(list1_head, 99) ? "Yes" : "No");
+	printf("Count of 2 in the list: %d\n", count_matches(list1_head, 2));
+	printf("Count of 12 in the list: %d\n", count_matches(list1_head, 12));
 
 	printf("Length of list: %d\n", length(list1_head));
 	printf("Recursive Length of list: %d\n", recursive_length(list1_head));
 	print_list(list1_head);
+
+	replace_matches(list1_head, 19, 21);
+	replace_matches(list1_head, 12, 24);
+	replace_matches(list1_head, 24, 36);
 
 	list1_head = delete_at_head(list1_head);
 	list1_head = delete_at_head(list1_head);
