@@ -96,16 +96,38 @@ Node *delete_at_tail(Node *head)
 	}
 }
 
+int length(Node *node)
+{
+	Node *current = node;
+	int len = 0;
+
+	while ( node != NULL )
+	{
+		len++;
+		node = node->next;
+	}
+	return len;
+}
+
+int recursive_length(Node * node)
+{
+	if ( node == NULL )
+		return 0;
+	return 1 + recursive_length(node->next);
+}
+
 int main()
 {
 	Node *list1_head = NULL;
 	list1_head = insert_at_head(list1_head, 1);
 	list1_head = insert_at_head(list1_head, 2);
-	list1_head = insert_at_head(list1_head, 3);
+	//list1_head = insert_at_head(list1_head, 3);
 	list1_head = insert_at_tail(list1_head, 4);
 	list1_head = insert_at_tail(list1_head, 8);
-	list1_head = insert_at_tail(list1_head, 12);
+	//list1_head = insert_at_tail(list1_head, 12);
 
+	printf("Length of list: %d\n", length(list1_head));
+	printf("Recursive Length of list: %d\n", recursive_length(list1_head));
 	print_list(list1_head);
 
 	list1_head = delete_at_head(list1_head);
@@ -113,6 +135,7 @@ int main()
 	list1_head = delete_at_tail(list1_head);
 	list1_head = delete_at_tail(list1_head);
 	
-
+	printf("Length of list: %d\n", length(list1_head));
+	printf("Recursive Length of list: %d\n", recursive_length(list1_head));
 	print_list(list1_head);
 }
