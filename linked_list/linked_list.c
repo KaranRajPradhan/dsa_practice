@@ -241,28 +241,35 @@ void replace_matches(Node *node, int find_value, int replace_value)
 	}
 }
 
+Node *append_list(Node *head1, Node *head2)
+{
+	if (head1 == NULL)
+		return head2;
+	Node *current = head1;
+	while(current->next != NULL)
+		current = current->next;
+	current->next = head2;
+
+	return head1;
+}
+
 int main()
 {
 	int num_deleted = 0;
 	Node *list1 = NULL, *list2 = NULL;
 
-	for (int i=0; i<50000; i++)
-	{
-		list1 = insert_at_head(list1, i % 10);
-		list2 = insert_at_head(list2, i % 10);
-	}
+	for (int i=1; i<=3; i++)
+		list1 = insert_at_tail(list1, i);
+	for (int i=4; i<=10; i++)
+		list2 = insert_at_tail(list2, i);
 
-	clock_t tic, toc;
-	tic = clock();
-	list1 = delete_all_matches(list1, 4, &num_deleted);
-	toc = clock();
-	printf("Time take delete_all_matches: %fs\n", (double) (toc-tic) / CLOCKS_PER_SEC);
+	printf("List1: \n");
+	print_list(list1);
 
-	
-	tic = clock();
-	list1 = efficient_delete_match(list1, 4, &num_deleted);
-	toc = clock();
-	printf("Time take efficient_delete_match: %fs\n", (double) (toc-tic) / CLOCKS_PER_SEC);
+	printf("List2: \n");
+	print_list(list2);
 
-
+	list1 = append_list(list1, list2);
+	printf("list1 after appending list2\n");
+	print_list(list1);
 }
