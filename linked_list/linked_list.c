@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 typedef struct node {
 	int value;
@@ -165,6 +166,44 @@ int length(Node *node)
 	return len;
 }
 
+Node *efficient_delete_match(Node *head, int delete_value, int *num_deleted)
+{
+	*num_deleted = 0;
+	
+	if (head == NULL)
+		return NULL;
+	
+	Node *current, *temp, *new_head;
+	current = head;
+	while (current->value == delete_value)
+	{
+		temp = current;
+		current = current->next;
+		free(temp);
+		*num_deleted += 1;
+
+		if (current == NULL)
+			return NULL;
+	}
+
+	new_head = current;
+
+	while (current->next != NULL)
+	{
+		if (current->next->value == delete_value)
+		{
+			temp = current->next;
+			current->next = current->next->next;
+			free(temp);
+			*num_deleted += 1;
+		}
+		else
+			current = current->next;
+	}
+
+	return new_head;
+}
+
 int recursive_length(Node * node)
 {
 	if ( node == NULL )
@@ -204,36 +243,26 @@ void replace_matches(Node *node, int find_value, int replace_value)
 
 int main()
 {
-	Node *list1_head = NULL;
-	list1_head = insert_at_head(list1_head, 1);
-	list1_head = insert_at_head(list1_head, 2);
-	list1_head = insert_at_head(list1_head, 2);
-	list1_head = insert_at_head(list1_head, 4);
-	list1_head = insert_at_tail(list1_head, 8);
-	list1_head = insert_at_tail(list1_head, 12);
-	list1_head = insert_at_tail(list1_head, 12);
-	list1_head = insert_at_tail(list1_head, 12);
-	list1_head = insert_at_tail(list1_head, 12);
-	list1_head = insert_at_tail(list1_head, 12);
+	int num_deleted = 0;
+	Node *list1 = NULL, *list2 = NULL;
 
-	print_list(list1_head);
-	bool deleted;
-	list1_head = delete_first_match(list1_head, 9, &deleted);
-
-	if (deleted)
+	for (int i=0; i<50000; i++)
 	{
-		printf("List after deleting first item:\n");
-		print_list(list1_head);
+		list1 = insert_at_head(list1, i % 10);
+		list2 = insert_at_head(list2, i % 10);
 	}
-	else
-		printf("Item not found\n");
 
-	int num_deleted;
+	clock_t tic, toc;
+	tic = clock();
+	list1 = delete_all_matches(list1, 4, &num_deleted);
+	toc = clock();
+	printf("Time take delete_all_matches: %fs\n", (double) (toc-tic) / CLOCKS_PER_SEC);
 
-	list1_head = delete_all_matches(list1_head, 12, &num_deleted);
-	if (num_deleted)
-		printf("Deleted %d instances of 12. Updated list:\n", num_deleted);
-	else
-		printf("No instances of 12 found in list\n");
-	print_list(list1_head);
+	
+	tic = clock();
+	list1 = efficient_delete_match(list1, 4, &num_deleted);
+	toc = clock();
+	printf("Time take efficient_delete_match: %fs\n", (double) (toc-tic) / CLOCKS_PER_SEC);
+
+
 }
