@@ -253,23 +253,42 @@ Node *append_list(Node *head1, Node *head2)
 	return head1;
 }
 
+Node *reverse_list(Node *head)
+{
+	if (head == NULL)
+		return NULL;
+	if (head->next == NULL)
+		return head;
+	
+	Node *current = head;
+	Node *next_node = head->next;
+
+	current->next = NULL;
+
+	while (next_node != NULL)
+	{
+		Node *temp = next_node->next;
+		next_node->next = current;
+		current = next_node;
+		next_node = temp;
+	}
+
+	return current;
+}
+
 int main()
 {
 	int num_deleted = 0;
 	Node *list1 = NULL, *list2 = NULL;
 
-	for (int i=1; i<=3; i++)
+	for (int i=1; i<=10; i++)
 		list1 = insert_at_tail(list1, i);
-	for (int i=4; i<=10; i++)
-		list2 = insert_at_tail(list2, i);
 
 	printf("List1: \n");
 	print_list(list1);
 
-	printf("List2: \n");
-	print_list(list2);
 
-	list1 = append_list(list1, list2);
-	printf("list1 after appending list2\n");
+	list1 = reverse_list(list1);
+	printf("list1 after reversing\n");
 	print_list(list1);
 }
