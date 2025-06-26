@@ -23,6 +23,23 @@ void bubble_sort(int a[], int length)
 	} while (swapped);
 }
 
+void selection_sort(int a[], int length)
+{
+	for (int i=0; i<(length-1); i++)
+	{
+		int min_pos = i;
+		for (int j=i+1; j<(length); j++)
+			if (a[j] < a[min_pos])
+				min_pos = j;
+		if (min_pos != i)
+		{
+			int temp = a[min_pos];
+			a[min_pos] = a[i];
+			a[i] = temp;
+		}
+	}
+}
+
 int main(void)
 {
 	int a[] = {1,3,7,9,0,2,4,5,8,6};
@@ -33,7 +50,8 @@ int main(void)
 		printf("%d,", a[i]);
 	printf("\n");
 
-	bubble_sort(a, length);
+	// bubble_sort(a, length);
+	selection_sort(a, length);
 
 	printf("Array after sort:\n");
 	for (int i=0; i<length; i++)
