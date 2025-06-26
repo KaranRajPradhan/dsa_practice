@@ -40,6 +40,21 @@ void selection_sort(int a[], int length)
 	}
 }
 
+void insertion_sort(int a[], int length)
+{
+	for (int i=1; i<length; i++)
+	{
+		int j = i - 1;
+		int key = a[i];
+		while (j >= 0 && a[j] > key)
+		{
+			a[j+1] = a[j];
+			j--;
+		}
+		a[j+1] = key;
+	}
+}
+
 int main(void)
 {
 	int a[] = {1,3,7,9,0,2,4,5,8,6};
@@ -51,8 +66,9 @@ int main(void)
 	printf("\n");
 
 	// bubble_sort(a, length);
-	selection_sort(a, length);
-
+	//selection_sort(a, length);
+	insertion_sort(a, length);
+	
 	printf("Array after sort:\n");
 	for (int i=0; i<length; i++)
 		printf("%d,", a[i]);
