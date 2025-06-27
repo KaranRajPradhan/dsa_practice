@@ -307,27 +307,60 @@ void sort_list(Node *head)
 	} while (swapped);	
 }
 
+void delete_duplicates(Node *head)
+{
+	if (head == NULL)
+		return;
+	if (head->next == NULL)
+		return;
+
+	Node *current1 = head;
+	Node *current2, *duplicate;
+
+	while (current1 != NULL && current1->next != NULL)
+	{
+		current2 = current1;
+		while (current2->next != NULL)
+		{
+			if (current1->value == current2->next->value)
+			{
+				duplicate = current2->next;
+				current2->next = current2->next->next;
+				free(duplicate);
+			}
+			else
+				current2 = current2->next;
+		}
+		current1 = current1->next;
+	}
+
+}
+
 int main()
 {
 	Node *list1 = NULL;
 
-	list1 = insert_at_tail(list1, 5);
-	list1 = insert_at_tail(list1, 9);
-	list1 = insert_at_tail(list1, 1);
-	list1 = insert_at_tail(list1, 8);
-	list1 = insert_at_tail(list1, 0);
-	list1 = insert_at_tail(list1, 4);
-	list1 = insert_at_tail(list1, 7);
-	list1 = insert_at_tail(list1, 3);
-	list1 = insert_at_tail(list1, 6);
-	list1 = insert_at_tail(list1, 2);
+  	list1 = insert_at_head(list1, 5);
+  	list1 = insert_at_head(list1, 5);
+  	list1 = insert_at_head(list1, 6);
+  	list1 = insert_at_head(list1, 7);
+  	list1 = insert_at_head(list1, 5);
+  	list1 = insert_at_head(list1, 8);
+  	list1 = insert_at_head(list1, 1);
+  	list1 = insert_at_head(list1, 6);
+  	list1 = insert_at_head(list1, 8);
+  	list1 = insert_at_head(list1, 2);
+  	list1 = insert_at_head(list1, 8);
+  	list1 = insert_at_head(list1, 9);
+  	list1 = insert_at_head(list1, 7);
+  	list1 = insert_at_head(list1, 3);
+  	list1 = insert_at_head(list1, 6);
 
-	printf("List1: \n");
-	print_list(list1);
+  	printf("List before delete duplicates:\n");
+  	print_list(list1);
+  	delete_duplicates(list1);
+  	printf("List after delete duplicates:\n");
+  	print_list(list1);
 
-
-	sort_list(list1);
-	
-	printf("List1 after sorting:\n");
-	print_list(list1);
+	return 0;
 }
