@@ -276,19 +276,58 @@ Node *reverse_list(Node *head)
 	return current;
 }
 
+void sort_list(Node *head)
+{
+	if (head == NULL)
+	       return ;
+	if (head->next == NULL)
+		return ;
+
+	bool swapped = false;
+
+	do
+	{
+		Node *current = head;
+		Node *prev = NULL;
+		swapped = false;
+
+		while (current->next != NULL)
+		{
+			prev = current;
+			current = current->next;
+			if (current->value < prev->value)
+			{
+				int temp = prev->value;
+				prev->value = current->value;
+				current->value = temp;
+				swapped = true;
+			}
+
+		}
+	} while (swapped);	
+}
+
 int main()
 {
-	int num_deleted = 0;
-	Node *list1 = NULL, *list2 = NULL;
+	Node *list1 = NULL;
 
-	for (int i=1; i<=10; i++)
-		list1 = insert_at_tail(list1, i);
+	list1 = insert_at_tail(list1, 5);
+	list1 = insert_at_tail(list1, 9);
+	list1 = insert_at_tail(list1, 1);
+	list1 = insert_at_tail(list1, 8);
+	list1 = insert_at_tail(list1, 0);
+	list1 = insert_at_tail(list1, 4);
+	list1 = insert_at_tail(list1, 7);
+	list1 = insert_at_tail(list1, 3);
+	list1 = insert_at_tail(list1, 6);
+	list1 = insert_at_tail(list1, 2);
 
 	printf("List1: \n");
 	print_list(list1);
 
 
-	list1 = reverse_list(list1);
-	printf("list1 after reversing\n");
+	sort_list(list1);
+	
+	printf("List1 after sorting:\n");
 	print_list(list1);
 }
