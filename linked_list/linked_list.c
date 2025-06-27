@@ -336,31 +336,46 @@ void delete_duplicates(Node *head)
 
 }
 
+Node *insert_after(Node *head, int new_value, int after_value)
+{
+	Node *new_node = calloc(1, sizeof(Node));
+	new_node->value = new_value;
+
+	if (head == NULL)
+		return new_node;
+	else
+	{
+		Node *current = head;
+		while (current->next != NULL)
+		{
+			if (current->value == after_value)
+			{
+				new_node->next = current->next;
+				current->next = new_node;
+				return head;
+			}
+			else
+				current = current->next;
+		}
+		new_node->next = current->next;
+		current->next = new_node;
+		return head;
+	}
+}
+
 int main()
 {
-	Node *list1 = NULL;
+	Node *list = NULL; 
 
-  	list1 = insert_at_head(list1, 5);
-  	list1 = insert_at_head(list1, 5);
-  	list1 = insert_at_head(list1, 6);
-  	list1 = insert_at_head(list1, 7);
-  	list1 = insert_at_head(list1, 5);
-  	list1 = insert_at_head(list1, 8);
-  	list1 = insert_at_head(list1, 1);
-  	list1 = insert_at_head(list1, 6);
-  	list1 = insert_at_head(list1, 8);
-  	list1 = insert_at_head(list1, 2);
-  	list1 = insert_at_head(list1, 8);
-  	list1 = insert_at_head(list1, 9);
-  	list1 = insert_at_head(list1, 7);
-  	list1 = insert_at_head(list1, 3);
-  	list1 = insert_at_head(list1, 6);
-
-  	printf("List before delete duplicates:\n");
-  	print_list(list1);
-  	delete_duplicates(list1);
-  	printf("List after delete duplicates:\n");
-  	print_list(list1);
-
-	return 0;
+	list = insert_at_tail(list, 5);
+	list = insert_at_tail(list, 9);
+	list = insert_at_tail(list, 1);
+	list = insert_at_tail(list, 8);
+	list = insert_at_tail(list, 4);
+	
+	printf("List before insert:\n");
+	print_list(list);
+	list = insert_after(list, 20, 1);
+	printf("List after insert:\n");
+	print_list(list);
 }
