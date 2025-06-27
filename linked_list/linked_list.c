@@ -363,6 +363,16 @@ Node *insert_after(Node *head, int new_value, int after_value)
 	}
 }
 
+Node *delete_list(Node *node)
+{
+	if (node != NULL)
+	{
+		delete_list(node->next);
+		free(node);
+	}
+	return NULL;
+}
+
 int main()
 {
 	Node *list = NULL; 
@@ -378,4 +388,9 @@ int main()
 	list = insert_after(list, 20, 1);
 	printf("List after insert:\n");
 	print_list(list);
+
+	list = delete_list(list);
+	printf("After deleting list:\n");
+	print_list(list);
+
 }
