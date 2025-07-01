@@ -388,6 +388,27 @@ Node *add_two_lists(Node *head1, Node *head2)
 	return head1;
 }
 
+Node *duplicate_list(Node *head)
+{
+	Node *new_head = NULL;
+	Node *prev = NULL;
+	while (head != NULL)
+	{
+		Node *new_node = calloc(1, sizeof(Node));
+		new_node->value = head->value;
+		new_node->next = NULL;
+		
+		if (prev == NULL)
+			new_head = new_node;
+		else	
+			prev->next = new_node;
+		
+		prev = new_node;
+		head = head->next;
+	}
+	return new_head;
+}
+
 int main()
 {
 	Node *list1 = NULL; 
@@ -399,23 +420,11 @@ int main()
 	list1 = insert_at_tail(list1, 8);
 	list1 = insert_at_tail(list1, 4);
 	
-	list2 = insert_at_tail(list2, 5);
-	list2 = insert_at_tail(list2, 9);
-	list2 = insert_at_tail(list2, 1);
-	list2 = insert_at_tail(list2, 8);
-	list2 = insert_at_tail(list2, 4);
+	list2 = duplicate_list(list1);
 
-
-
-	printf("List1:\n");
+	printf("List1 at address %p:\n", list1);
 	print_list(list1);
 
-	printf("List2:\n");
+	printf("List2 at address %p:\n", list2);
 	print_list(list2);
-
-	list1 = add_two_lists(list1, list2);
-
-	printf("After adding lists:\n");
-	print_list(list1);
-
 }
