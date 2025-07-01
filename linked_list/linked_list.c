@@ -373,24 +373,49 @@ Node *delete_list(Node *node)
 	return NULL;
 }
 
+Node *add_two_lists(Node *head1, Node *head2)
+{
+	Node *current1 = head1;
+	Node *current2 = head2;
+
+	while (current1 != NULL && current2 != NULL)
+	{
+		current1->value += current2->value;
+		current1 = current1->next;
+		current2 = current2->next;
+	}
+
+	return head1;
+}
+
 int main()
 {
-	Node *list = NULL; 
+	Node *list1 = NULL; 
+	Node *list2 = NULL;
 
-	list = insert_at_tail(list, 5);
-	list = insert_at_tail(list, 9);
-	list = insert_at_tail(list, 1);
-	list = insert_at_tail(list, 8);
-	list = insert_at_tail(list, 4);
+	list1 = insert_at_tail(list1, 5);
+	list1 = insert_at_tail(list1, 9);
+	list1 = insert_at_tail(list1, 1);
+	list1 = insert_at_tail(list1, 8);
+	list1 = insert_at_tail(list1, 4);
 	
-	printf("List before insert:\n");
-	print_list(list);
-	list = insert_after(list, 20, 1);
-	printf("List after insert:\n");
-	print_list(list);
+	list2 = insert_at_tail(list2, 5);
+	list2 = insert_at_tail(list2, 9);
+	list2 = insert_at_tail(list2, 1);
+	list2 = insert_at_tail(list2, 8);
+	list2 = insert_at_tail(list2, 4);
 
-	list = delete_list(list);
-	printf("After deleting list:\n");
-	print_list(list);
+
+
+	printf("List1:\n");
+	print_list(list1);
+
+	printf("List2:\n");
+	print_list(list2);
+
+	list1 = add_two_lists(list1, list2);
+
+	printf("After adding lists:\n");
+	print_list(list1);
 
 }
